@@ -4,6 +4,12 @@ on:
       some_input:
         required: false
         type: string
+
+permissions:
+  contents: write # Required to create releases
+  actions: write # Required to access actions
+  packages: write # Required to push Docker images
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
