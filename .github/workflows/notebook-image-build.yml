@@ -47,6 +47,14 @@ jobs:
             echo "repository_dispatch event: $DISPATCHED_EVENT_NAME"
             if [[ $DISPATCHED_EVENT_NAME == 'trigger-build-dev' ]]; then
               echo "REPOSITORY_DISPATCH event, building dev image"
+              # Check if 'dev' branch exists; if it does, check it out.
+              if git ls-remote --exit-code --heads origin dev; then
+                echo "dev branch found, checking it out"
+                git fetch origin dev
+                git checkout dev
+              else
+                echo "dev branch not found, building from default branch"
+              fi
               TAG="dev"
             elif [[ $DISPATCHED_EVENT_NAME == 'trigger-build-latest' ]]; then
               echo "REPOSITORY_DISPATCH event, building latest image"
